@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        * {
+            font-family: "Microsoft Yahei", "PingFang SC", serif;
+        }
+        #box {
+            width: 800px;
+            font-size: 28px;
+            border: 1px solid #f00;
+            resize: horizontal;
+            overflow: auto;
+            text-align: center;
+            padding: 20px;
+        }
+        #text {
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: left;
+        }
+        #show-more-toggle {
+            display: none;
+        }
+        #show-more::after {
+            content: "显示更多";
+            font-size: 18px;
+            color: gray;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #show-more-toggle:checked + p {
+            -webkit-line-clamp: unset;
+        }
+        #show-more-toggle:checked ~ #show-more::after {
+            content: "收起文本";
+        }
+        p:not(.truncated) ~ #show-more {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box">
+        <input type="checkbox" name="show-more" id="show-more-toggle">
+        <p id="text">莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。</p >
+        <label id="show-more" for="show-more-toggle"></label>
+    </div>
+
+<script type="text/javascript">
+    const boxEl = document.getElementById('box')
+    const textEl = document.getElementById('text')
+    const resizeObserver = new ResizeObserver(() => textEl.classList[textEl.offsetHeight < textEl.scrollHeight ? 'add' : 'remove']('truncated'))
+    resizeObserver.observe(boxEl)
+</script>
+</body>
+</html>
