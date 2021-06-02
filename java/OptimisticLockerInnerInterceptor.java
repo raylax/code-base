@@ -106,10 +106,10 @@ public class OptimisticLockerInnerInterceptor implements InnerInterceptor {
         }
     }
 
-    private void setVersionByWrapper(Map<String, Object> map, String className) {
+    private void setVersionByWrapper(Map<String, Object> map, String msId) {
         Object ew = map.get(Constants.WRAPPER);
         if (ew instanceof AbstractWrapper && ew instanceof Update) {
-            final TableFieldInfo versionField = getVersionField(className);
+            final TableFieldInfo versionField = getVersionField(msId);
             if (versionField == null) {
                 return;
             }
@@ -132,9 +132,9 @@ public class OptimisticLockerInnerInterceptor implements InnerInterceptor {
         }
     }
 
-    private TableFieldInfo getVersionField(String className) {
-        final String shortClassName = className.substring(0, className.lastIndexOf('.'));
-        final Class<?> entityClass = getEntityClass(shortClassName);
+    private TableFieldInfo getVersionField(String msId) {
+        final String className = msId.substring(0, msId.lastIndexOf('.'));
+        final Class<?> entityClass = getEntityClass(className);
         TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
         return tableInfo.getVersionFieldInfo();
     }
